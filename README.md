@@ -24,6 +24,13 @@ This project is a Spring Boot application that demonstrates how to implment role
 - **custom_login_page.html** : Custom login page for user authentication
 
 ## Technologies Used
-
- 
+- Java 21
+- Spring Boot 3.3.4
+- MySQL
+- Maven for dependency management
+- Spring Web for building web applications
+- Spring Data JPA for database access and persistence
+- Spring Security for securing the application
+- Thymeleaf for server-side rendering of HTML templates
+- Lombok to reduce boilerplate code
     
