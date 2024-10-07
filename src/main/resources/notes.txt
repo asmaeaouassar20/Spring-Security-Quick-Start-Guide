@@ -1,0 +1,6 @@
+- Before adding Spring Security dependency, all URLs are accessible
+- Once we add it, you'll see that all pages are protected under a login screen
+- If you want to access before adding a custom configuration you can use the following infos:
+* username : user
+* password : it is generated in the output after running your app ( the password is changing every time you start the app )
+

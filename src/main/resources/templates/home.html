@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav {
+            margin: 20px 0;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .admin-section {
+            background-color: #ff6b6b;
+            padding: 15px;
+            color: white;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+        .admin-section h2 {
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to the Home Page</h1>
+</header>
+
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Profile</a>
+    <a href="#">Settings</a>
+    <a href="#">Logout</a>
+</nav>
+
+<div class="container">
+    <h2>Hello, User!</h2>
+    <p>This is the home page accessible by all normal users. You can navigate through the website using the menu above.</p>
+
+    <div class="admin-section" id="adminSection">
+        <h2>Admin Section</h2>
+        <p>Welcome, Admin! You have access to additional features and management tools. Use this section to manage users, content, and the system.</p>
+    </div>
+</div>
+
+<footer>
+    &copy; 2024 asmaeaouassar | All Rights Reserved
+</footer>
+
+<script>
+        // Simulating whether the user is an admin
+        const isAdmin = true; // Change to false if user is not an admin
+
+        if (isAdmin) {
+            document.getElementById('adminSection').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
