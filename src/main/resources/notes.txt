@@ -4,3 +4,14 @@
 * username : user
 * password : it is generated in the output after running your app ( the password is changing every time you start the app )
 
+-----------------------------------------------------------
+- to support jwt we have to add 3 libraries:
+    jjwt-api
+    jjwt-impl
+    jjwt-jackson
+
+
+- When the user login with username and password, the spring server generates
+JWT using a Secret Key and returns it to the user with a certain validity
+
+the user can use this JWT for further requests

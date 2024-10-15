@@ -1,9 +1,12 @@
 package algostyle.asmaeaouassar.Spring_Security_Quick_Start_Guide.security;
 
+import algostyle.asmaeaouassar.Spring_Security_Quick_Start_Guide.webtoken.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration // To indicate that a class is a source of bean definitions for the application context in Spring, allowing for the configuration of various components and setting within the application
 @EnableWebSecurity  // To activate web security in a Spring application, allowing the configuration of user authentication and authorization rules
@@ -19,6 +23,8 @@ public class SecurityConfiguration {
 
     @Autowired
     private MyUserDetailService myUserDetailService;
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**
      * Configures the security filter chain for HTTP requests
@@ -40,7 +46,7 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(httpSecurityRegistry->{
-            httpSecurityRegistry.requestMatchers("/home","/register/**").permitAll();
+            httpSecurityRegistry.requestMatchers("/home","/register/**","/authenticate").permitAll();
             httpSecurityRegistry.requestMatchers("/user/**").hasRole("USER");
             httpSecurityRegistry.requestMatchers("/admin/**").hasRole("ADMIN");
             httpSecurityRegistry.anyRequest().authenticated();
@@ -49,7 +55,8 @@ public class SecurityConfiguration {
                         .loginPage("/login")
                         .successHandler(new AuthenticationSuccessHandler())
                         .permitAll()
-             ).build();
+             ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
 
@@ -92,6 +99,12 @@ public class SecurityConfiguration {
 
     /**
      * Configures and returns an instance of DaoAuthenticationProvider
+     *
+     * Méthode qui retourne un fournisseur d'authentification
+     *
+     * Le provider est généralement une instance de AuthenticationProvider
+     * qui contient la logique pourauthentifier
+     * les utilisateurs
      * @return an instance of AuthenticationProvider that uses the configured UserDetailsService and PasswordEncoder for authentication
      */
     @Bean
@@ -118,4 +131,25 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+
+    /**
+     * Crée un bean de gestionnaire d'authentification
+     *
+     * Cette méthode est annotée avec @Bean, ce qui signifie que Spring
+     * l'utilise pour générer un bean dans le contexte de l'application.
+     *
+     * Le gestionnaire d'authentification est responsable de la vérification
+     * des infos d'identification des utilisateurs lors du processus
+     * d'authentification
+     *
+     * @return Un objet AuthenticationManager qui utilise un ProviderManager
+     *      pour gérer l'authentification des utilisateurs
+     */
+
+    @Bean
+    public AuthenticationManager authenticationManager(){
+        // Crée et retourne une instance de ProviderManager
+        // qui est un type d'AuthenticationManager
+        return new ProviderManager(authenticationProvider());
+    }
 }
